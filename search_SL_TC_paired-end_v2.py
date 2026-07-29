@@ -39,7 +39,6 @@ with open(args.sl_seq, 'r') as leader_file:
     leader_name = leader_file.readline()[1:].rstrip('\n')
     leader = leader_file.readline().rstrip('\n').upper()
 
-# Define constants
 min_leader_length = args.slength
 max_mm = args.mmatchs
 max_error = max_mm / len(leader)
@@ -70,7 +69,6 @@ def refasta(infile):
 # Thread-safe dictionary to store potential SL hits
 sl = defaultdict(list)
 
-# Function to process each chunk of records
 def process_chunk(chunk, leader, min_leader_length, max_error):
     local_sl = defaultdict(list)
     count = 0
@@ -135,7 +133,6 @@ def read_fastq_in_chunks(fqfile_r1, fqfile_r2, chunk_size=100000):
 
 def main():
 	print('\n\nSL search in fastq paired-end files has started...')
-	# Process the fastq file in parallel using the specified number of threads.
 	start_time = time.perf_counter()
     
 	with ProcessPoolExecutor(max_workers=args.threads) as executor:
@@ -366,65 +363,6 @@ def main():
 if __name__ == '__main__':
     main()
 
-
-'''
-Traceback (most recent call last):
-  File "search_SL_TC_paired-end_v2.py", line 370, in <module>
-    main()
-  File "search_SL_TC_paired-end_v2.py", line 218, in main
-    if sl[read_name][-3] == 1: #--SL detectado en el par 1
-IndexError: list index out of range
-
-
-SL search in fastq file has started...
-Time elapsed: 35.82 minutes
-Potential Leader hits: 1102212
-
-1102212 reads; of these:
-  1102212 (100.00%) were paired; of these:
-    314112 (28.50%) aligned concordantly 0 times
-    547554 (49.68%) aligned concordantly exactly 1 time
-    240546 (21.82%) aligned concordantly >1 times
-    ----
-    314112 pairs aligned concordantly 0 times; of these:
-      66801 (21.27%) aligned discordantly 1 time
-    ----
-    247311 pairs aligned 0 times concordantly or discordantly; of these:
-      494622 mates make up the pairs; of these:
-        332369 (67.20%) aligned 0 times
-        59464 (12.02%) aligned exactly 1 time
-        102789 (20.78%) aligned >1 times
-84.92% overall alignment rate
-Valid leader hits: 925575
-
-
-
-SL search in fastq file has started...
-Time elapsed: 5.97 minutes
-Potential Leader hits: 1102212
-
-Bowtie2 alignment has started has started...
-
-1102212 reads; of these:
-  1102212 (100.00%) were paired; of these:
-    314112 (28.50%) aligned concordantly 0 times
-    547554 (49.68%) aligned concordantly exactly 1 time
-    240546 (21.82%) aligned concordantly >1 times
-    ----
-    314112 pairs aligned concordantly 0 times; of these:
-      66801 (21.27%) aligned discordantly 1 time
-    ----
-    247311 pairs aligned 0 times concordantly or discordantly; of these:
-      494622 mates make up the pairs; of these:
-        332369 (67.20%) aligned 0 times
-        59464 (12.02%) aligned exactly 1 time
-        102789 (20.78%) aligned >1 times
-84.92% overall alignment rate
-
-Bowtie2 alignment has finished...
-
-SAM analisis has started...
-SAM analisis has finished...
 
 Valid leader hits: 925575
 
