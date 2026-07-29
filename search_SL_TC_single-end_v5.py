@@ -95,7 +95,6 @@ def process_fastq_chunk(chunk, leader, max_error):
     return potential_hits, local_sl
 
 def read_fastq_in_chunks(fqfile, chunk_size=100000):
-    """ Read fastq file in chunks to avoid loading the entire file into memory """
     with open(fqfile, 'r') as fastq_infile:
         chunk = []
         while True:
@@ -116,7 +115,6 @@ def read_fastq_in_chunks(fqfile, chunk_size=100000):
 
 def main():
 	print('\n\nSL search in fastq file has started...')
-	# Process the fastq file in parallel using the specified number of threads.
 	start_time = time.perf_counter()
     
 	with ProcessPoolExecutor(max_workers=args.threads) as executor:
@@ -130,11 +128,9 @@ def main():
 				potential_hits, local_sl = future.result()
 				count += len(potential_hits)
 
-				# Write potential hits to the temporary file.
 				for record in potential_hits:
 					leader_outfile.write('\n'.join(record) + '\n')
 
-				# Merge the local dictionary with the global one.
 				sl.update(local_sl)
     
 	end_time = time.perf_counter()
@@ -142,7 +138,6 @@ def main():
 	print(f"Time elapsed: {elapsed_time:.2f} minutes")
 	print(f"Potential Leader hits: {count}" + '\n')
 
-	# Alignment with Bowtie2 using the dynamic number of threads.
 	print('Bowtie2 alignment has started has started...\n')
 	subprocess.call(f"{bow} -x {args.g_index} -U " + args.sample_id + "_seqleader_temp.fastq -S " + args.sample_id + "_temp.sam", shell=True)
 	print('\nBowtie2 alignment has finished...\n')
