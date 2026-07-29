@@ -68,11 +68,12 @@ python search_SL_TC_single-end_v5.py -s trypanosoma.fa -q SRR28628196.fastq -g T
 
 ## Output example:
 
+```
 SL search in fastq file has started...
 Time elapsed: 5.97 minutes
 Potential Leader hits: 1102212
 
-Bowtie2 alignment has started has started...
+Bowtie2 alignment has started ...
 
 1102212 reads; of these:
   1102212 (100.00%) were paired; of these:
@@ -92,8 +93,17 @@ Bowtie2 alignment has started has started...
 
 Bowtie2 alignment has finished...
 
-SAM analisis has started...
-SAM analisis has finished...
+SAM analysis has started...
+SAM analysis has finished...
 
 Valid leader hits: 925575
+```
+
+## Output files (example):
+
+```
+SRR6425470_SL_seqs.fasta
+SRR25010101_sl_trimmed_1.fastq
+SRR6425470_sl_trimmed_2.fastq
+```
 
